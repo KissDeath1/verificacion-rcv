@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Póliza Digital | Oceánica de Seguros</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 0; display: flex; justify-content: center; color: #333; }
+        .container { width: 100%; max-width: 450px; background-color: #ffffff; min-height: 100vh; box-shadow: 0 0 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .header { background-color: #003366; color: #ffffff; padding: 25px 20px; text-align: center; border-bottom: 5px solid #00a896; }
+        .header h1 { margin: 0; font-size: 20px; letter-spacing: 1px; text-transform: uppercase; }
+        .header p { margin: 5px 0 0 0; font-size: 12px; opacity: 0.8; }
+        .status-bar { background-color: #e8f5e9; color: #2e7d32; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; border-bottom: 1px solid #c8e6c9; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .status-icon { width: 10px; height: 10px; background-color: #2e7d32; border-radius: 50%; display: inline-block; }
+        .content { padding: 20px; flex-grow: 1; }
+        .section-title { font-size: 12px; color: #777; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .data-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #f0f0f0; font-size: 14px; }
+        .data-label { color: #666; font-weight: 500; }
+        .data-value { font-weight: bold; color: #111; text-align: right; }
+        .footer { background-color: #f8f9fa; text-align: center; padding: 20px; font-size: 11px; color: #999; border-top: 1px solid #eee; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Oceánica de Seguros</h1>
+            <p>Sistema de Verificación de Pólizas RCV</p>
+        </div>
+        <div class="status-bar"><span class="status-icon"></span>PÓLIZA ACTIVA Y VIGENTE</div>
+        <div class="content">
+            <div class="section-title">Datos del Titular</div>
+            <div class="data-row"><span class="data-label">Asegurado:</span><span class="data-value" id="nombre">---</span></div>
+            <div class="data-row"><span class="data-label">Cédula / RIF:</span><span class="data-value" id="cedula">---</span></div>
+            <div class="data-row"><span class="data-label">Teléfono:</span><span class="data-value" id="telefono">---</span></div>
+            <div class="section-title">Datos del Vehículo</div>
+            <div class="data-row"><span class="data-label">Marca:</span><span class="data-value" id="marca">---</span></div>
+            <div class="data-row"><span class="data-label">Modelo:</span><span class="data-value" id="modelo">---</span></div>
+            <div class="data-row"><span class="data-label">Año:</span><span class="data-value" id="ano">---</span></div>
+            <div class="data-row"><span class="data-label">Placa:</span><span class="data-value" id="placa">---</span></div>
+            <div class="data-row"><span class="data-label">Color:</span><span class="data-value" id="color">---</span></div>
+            <div class="data-row"><span class="data-label">Serial Motor/Carrocería:</span><span class="data-value" id="serial">---</span></div>
+            <div class="section-title">Detalles del Contrato</div>
+            <div class="data-row"><span class="data-label">N° de Póliza RCV:</span><span class="data-value" id="poliza">---</span></div>
+            <div class="data-row"><span class="data-label">Fecha Inicio:</span><span class="data-value" id="inicio">---</span></div>
+            <div class="data-row"><span class="data-label">Fecha Vencimiento:</span><span class="data-value" id="fin">---</span></div>
+        </div>
+        <div class="footer">Oceánica de Seguros, C.A. Inscrita en la SUDEASEG bajo el N° 124.</div>
+    </div>
+    <script>
+        function obtenerDatos() {
+            const params = new URLSearchParams(window.location.search);
+            const campos = ['nombre', 'cedula', 'telefono', 'marca', 'modelo', 'placa', 'ano', 'color', 'serial', 'poliza', 'inicio', 'fin'];
+            campos.forEach(campo => {
+                let valor = params.get(campo);
+                if (valor) {
+                    valor = valor.replace(/\+/g, ' ');
+                    document.getElementById(campo).innerText = valor.toUpperCase();
+                }
+            });
+        }
+        window.onload = obtenerDatos;
+    </script>
+</body>
+</html>
