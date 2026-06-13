@@ -58,7 +58,36 @@
                 }
             });
         }
-        window.onload = obtenerDatos;
-    </script>
+// CONTROL AUTOMÁTICO DE VENCIMIENTO
+    function verificarVencimiento() {
+        var campoFin = document.getElementById('fin');
+        if (campoFin && campoFin.innerText) {
+            var textoFecha = campoFin.innerText.trim(); 
+            var partes = textoFecha.split('/');
+            
+            if (partes.length === 3) {
+                var dia = parseInt(partes[0], 10);
+                var mes = parseInt(partes[1], 10) - 1; 
+                var ano = parseInt(partes[2], 10);
+                
+                if (ano < 100) { ano += 2000; }
+                
+                var fechaLimite = new Date(ano, mes, dia, 23, 59, 59);
+                var hoy = new Date();
+                
+                if (hoy > fechaLimite) {
+                    campoFin.innerText = "PÓLIZA VENCIDA";
+                    campoFin.style.color = "#ff4d4d"; 
+                    campoFin.style.fontWeight = "bold";
+                }
+            }
+        }
+    }
+    
+    window.onload = function() {
+        obtenerDatos();
+        verificarVencimiento();
+    };
+</script>
 </body>
 </html>
