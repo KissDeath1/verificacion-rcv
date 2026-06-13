@@ -58,7 +58,7 @@
                 }
             });
         }
-// CONTROL AUTOMÁTICO DE VENCIMIENTO
+// CONTROL AUTOMÁTICO DE VENCIMIENTO (VERSIÓN CON FECHA CONSERVADA)
     function verificarVencimiento() {
         var campoFin = document.getElementById('fin');
         if (campoFin && campoFin.innerText) {
@@ -76,9 +76,8 @@
                 var hoy = new Date();
                 
                 if (hoy > fechaLimite) {
-                    campoFin.innerText = "PÓLIZA VENCIDA";
-                    campoFin.style.color = "#ff4d4d"; 
-                    campoFin.style.fontWeight = "bold";
+                    // Mantiene la fecha original y le suma el cartel de alerta al lado
+                    campoFin.innerHTML = textoFecha + " <span style='color: #ff4d4d; font-weight: bold; margin-left: 5px;'>(PÓLIZA VENCIDA)</span>";
                 }
             }
         }
