@@ -58,13 +58,14 @@
                 }
             });
         }
-// CONTROL AUTOMÁTICO DE VENCIMIENTO (COMPLETO: ARRIBA Y ABAJO)
+// CONTROL AUTOMÁTICO DE VENCIMIENTO (DOBLE ESTADO: ARRIBA Y ABAJO)
     function verificarVencimiento() {
         var campoFin = document.getElementById('fin');
         var barraEstado = document.getElementById('barra-estado'); // Captura la barra superior
         
         if (campoFin && campoFin.innerText) {
-            var textoFecha = campoFin.innerText.trim(); 
+            // Nos aseguramos de tomar solo la fecha limpia, sin textos viejos abajo
+            var textoFecha = campoFin.innerText.split('\n')[0].trim(); 
             var partes = textoFecha.split('/');
             
             if (partes.length === 3) {
@@ -78,14 +79,26 @@
                 var hoy = new Date();
                 
                 if (hoy > fechaLimite) {
-                    // 1. Modifica la fecha abajo con su salto de línea
+                    // --- ESTADO: PÓLIZA VENCIDA ---
+                    // 1. Modifica la fecha abajo en rojo
                     campoFin.innerHTML = textoFecha + "<br><span style='color: #ff4d4d; font-weight: bold; font-size: 11px; display: block; margin-top: 4px;'>(PÓLIZA VENCIDA)</span>";
                     
-                    // 2. Modifica la barra superior arriba (Texto y colores en sintonía)
+                    // 2. Modifica la barra superior en rojo
                     if (barraEstado) {
-                        barraEstado.innerText = "● PÓLIZA VENCIDA O CADUCADA";
+                        barraEstado.innerText = "● PÓLIZA VENCIDA";
                         barraEstado.style.backgroundColor = "#ffe6e6"; // Fondo rojo suave
                         barraEstado.style.color = "#ff4d4d";           // Letras rojas
+                    }
+                } else {
+                    // --- ESTADO: PÓLIZA VIGENTE ---
+                    // 1. Modifica la fecha abajo en verde
+                    campoFin.innerHTML = textoFecha + "<br><span style='color: #2e7d32; font-weight: bold; font-size: 11px; display: block; margin-top: 4px;'>(PÓLIZA VIGENTE)</span>";
+                    
+                    // 2. Mantiene la barra superior original en verde
+                    if (barraEstado) {
+                        barraEstado.innerText = "● PÓLIZA ACTIVA Y VIGENTE";
+                        barraEstado.style.backgroundColor = ""; // Regresa al verde original del CSS
+                        barraEstado.style.color = "";           // Regresa al texto original del CSS
                     }
                 }
             }
