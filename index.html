@@ -26,7 +26,7 @@
             <h1>Oceánica de Seguros</h1>
             <p>Sistema de Verificación de Pólizas RCV</p>
         </div>
-        <div class="status-bar"><span class="status-icon"></span>PÓLIZA ACTIVA Y VIGENTE</div>
+        <div id="barra-estado" class="status-bar"><span class="status-icon"></span>PÓLIZA ACTIVA Y VIGENTE</div>
         <div class="content">
             <div class="section-title">Datos del Titular</div>
             <div class="data-row"><span class="data-label">Asegurado:</span><span class="data-value" id="nombre">---</span></div>
@@ -58,9 +58,11 @@
                 }
             });
         }
-// CONTROL AUTOMÁTICO DE VENCIMIENTO (VERSIÓN CON FECHA CONSERVADA)
+// CONTROL AUTOMÁTICO DE VENCIMIENTO (COMPLETO: ARRIBA Y ABAJO)
     function verificarVencimiento() {
         var campoFin = document.getElementById('fin');
+        var barraEstado = document.getElementById('barra-estado'); // Captura la barra superior
+        
         if (campoFin && campoFin.innerText) {
             var textoFecha = campoFin.innerText.trim(); 
             var partes = textoFecha.split('/');
@@ -76,8 +78,15 @@
                 var hoy = new Date();
                 
                 if (hoy > fechaLimite) {
-                    // Mantiene la fecha original y le suma el cartel de alerta al lado
+                    // 1. Modifica la fecha abajo con su salto de línea
                     campoFin.innerHTML = textoFecha + "<br><span style='color: #ff4d4d; font-weight: bold; font-size: 11px; display: block; margin-top: 4px;'>(PÓLIZA VENCIDA)</span>";
+                    
+                    // 2. Modifica la barra superior arriba (Texto y colores en sintonía)
+                    if (barraEstado) {
+                        barraEstado.innerText = "● PÓLIZA VENCIDA O CADUCADA";
+                        barraEstado.style.backgroundColor = "#ffe6e6"; // Fondo rojo suave
+                        barraEstado.style.color = "#ff4d4d";           // Letras rojas
+                    }
                 }
             }
         }
@@ -87,6 +96,9 @@
         obtenerDatos();
         verificarVencimiento();
     };
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
